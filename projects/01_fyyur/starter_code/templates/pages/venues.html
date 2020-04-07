@@ -6,6 +6,7 @@
 	<ul class="items">
 		{% for venue in area.venues %}
 		<li>
+			<button class="delete-button" data-id="{{ venue.id }}">&#10060;</button>
 			<a href="/venues/{{ venue.id }}">
 				<i class="fas fa-music"></i>
 				<div class="item">
@@ -16,4 +17,24 @@
 		{% endfor %}
 	</ul>
 {% endfor %}
+<script>
+	const delete_checkmarks = document.querySelectorAll('.delete-button')
+	
+	for (let i=0; i < delete_checkmarks.length; i++) {
+		const delete_checkmark = delete_checkmarks[i];
+		delete_checkmark.onclick = function(e) {
+			console.log('event', e );
+			const deleteId = e.target.dataset['id'];
+			fetch('/venues/' + deleteId, {
+			method: 'delete'
+			})
+			.then(function(jsonResponse) {
+				window.location.href = '/'
+			})
+			.catch(function (err) {
+				console.info(err + " url: " + url)
+			});
+		}
+	}
+</script>
 {% endblock %}

@@ -6,6 +6,16 @@ body {
   height: 100%;
   /* The html and body elements cannot have any padding or margin. */
 }
+li button {
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+  color: red;
+  background-color: white;
+  float: left;
+  cursor: pointer;
+  font-size: 20px;
+}
 
 /* Wrapper for page content to push down footer */
 #wrap {
