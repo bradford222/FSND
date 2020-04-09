@@ -7,7 +7,7 @@ const questionsPerPlay = 5;
 
 class QuizView extends Component {
   constructor(props){
-    super();
+    super(props);
     this.state = {
         quizCategory: null,
         previousQuestions: [], 
@@ -36,6 +36,7 @@ class QuizView extends Component {
   }
 
   selectCategory = ({type, id=0}) => {
+    id += 1;
     this.setState({quizCategory: {type, id}}, this.getNextQuestion)
   }
 
@@ -106,6 +107,7 @@ class QuizView extends Component {
               <div className="category-holder">
                   <div className="play-category" onClick={this.selectCategory}>ALL</div>
                   {Object.keys(this.state.categories).map(id => {
+                    id = parseInt(id)+1
                   return (
                     <div
                       key={id}
