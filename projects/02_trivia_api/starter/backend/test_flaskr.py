@@ -19,7 +19,11 @@ class TriviaTestCase(unittest.TestCase):
         self.database_pw = "postgres"
 
         # Note I'm using port 5433 due to the way my system is set up
-        self.database_path = "postgres://{}:{}@{}/{}".format(self.database_user, self.database_pw, 'localhost:5433', self.database_name)
+        self.database_path =\
+            "postgres://{}:{}@{}/{}".format(self.database_user,
+                                            self.database_pw,
+                                            'localhost:5433',
+                                            self.database_name)
         setup_db(self.app, self.database_path)
 
         # binds the app to the current context
@@ -28,14 +32,15 @@ class TriviaTestCase(unittest.TestCase):
             self.db.init_app(self.app)
             # create all tables
             self.db.create_all()
-    
+
     def tearDown(self):
         """Executed after reach test"""
         pass
 
     """
     TODO
-    Write at least one test for each test for successful operation and for expected errors.
+    Write at least one test for each test for successful operation
+    and for expected errors.
     """
     def test_get_categories(self):
         res = self.client().get('/categories')
@@ -44,7 +49,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['categories'])
-        self.assertNotEqual(len(data['categories']),0)
+        self.assertNotEqual(len(data['categories']), 0)
 
     def test_list_questions(self):
         res = self.client().get('/questions')
@@ -54,8 +59,8 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['categories'])
         self.assertTrue(data['total_questions'])
-        self.assertNotEqual(len(data['questions']),0)
-        self.assertNotEqual(len(data['categories']),0)
+        self.assertNotEqual(len(data['questions']), 0)
+        self.assertNotEqual(len(data['categories']), 0)
 
     def test_delete_question(self):
         question = Question.query.first()
@@ -70,7 +75,8 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_questions_in_category(self):
         category_id = Category.query.first().id
-        res = self.client().get('/categories/' + str(category_id) + '/questions')
+        res = self.client().get('/categories/' + str(category_id) +
+                                '/questions')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -78,8 +84,8 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['categories'])
         self.assertEqual(data['current_category'], category_id)
         self.assertTrue(data['total_questions'])
-        self.assertNotEqual(len(data['questions']),0)
-        self.assertNotEqual(len(data['categories']),0)
+        self.assertNotEqual(len(data['questions']), 0)
+        self.assertNotEqual(len(data['categories']), 0)
 
     def test_quizzes(self):
 
@@ -91,7 +97,10 @@ class TriviaTestCase(unittest.TestCase):
 
         print(args)
 
-        res = self.client().post('/quizzes', data=json.dumps(args), headers={'Content-Type': 'application/json'})
+        res = self.client().post(
+                                '/quizzes', data=json.dumps(args),
+                                headers={'Content-Type': 'application/json'}
+                                )
         data = json.loads(res.data)
 
         print(data)
@@ -100,6 +109,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['question'])
         self.assertTrue(data['quiz_category'])
+
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
