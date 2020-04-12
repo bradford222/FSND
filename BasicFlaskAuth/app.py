@@ -7,9 +7,9 @@ from urllib.request import urlopen
 
 app = Flask(__name__)
 
-AUTH0_DOMAIN = @TODO_REPLACE_WITH_YOUR_DOMAIN
+AUTH0_DOMAIN = 'nomaddata.autho0.com'
 ALGORITHMS = ['RS256']
-API_AUDIENCE = @TODO_REPLACE_WITH_YOUR_API_AUDIENCE
+API_AUDIENCE = 'image'
 
 
 class AuthError(Exception):
@@ -109,6 +109,7 @@ def requires_auth(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         token = get_token_auth_header()
+        
         try:
             payload = verify_decode_jwt(token)
         except:

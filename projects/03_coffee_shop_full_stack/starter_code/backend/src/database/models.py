@@ -3,9 +3,13 @@ from sqlalchemy import Column, String, Integer
 from flask_sqlalchemy import SQLAlchemy
 import json
 
-database_filename = "database.db"
-project_dir = os.path.dirname(os.path.abspath(__file__))
-database_path = "sqlite:///{}".format(os.path.join(project_dir, database_filename))
+database_name = "coffeeshop"
+database_user = "postgres"
+database_pw = "postgres"
+database_path = "postgres://{}:{}@{}/{}".format(database_user,
+                                                database_pw,
+                                                'localhost:5433',
+                                                database_name)
 
 db = SQLAlchemy()
 
@@ -35,12 +39,12 @@ a persistent drink entity, extends the base SQLAlchemy Model
 '''
 class Drink(db.Model):
     # Autoincrementing, unique primary key
-    id = Column(Integer().with_variant(Integer, "sqlite"), primary_key=True)
+    id = Column(Integer().with_variant(Integer, "postgresql"), primary_key=True)
     # String Title
     title = Column(String(80), unique=True)
     # the ingredients blob - this stores a lazy json blob
     # the required datatype is [{'color': string, 'name':string, 'parts':number}]
-    recipe =  Column(String(180), nullable=False)
+    recipe = Column(String(180), nullable=False)
 
     '''
     short()
